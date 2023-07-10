@@ -1,25 +1,36 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react';
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import HomePage from './HomePage';
+import HistoryPage from './HistoryPage';
+import CartPage from './CartPage';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
-function App() {
+
+const App = () => {
+  const [history, setHistory] = useState([]);
+
+  const addToHistory = (imageUrl) => {
+    setHistory([...history, imageUrl]);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <div>
+        <div className='d-flex mt-2' style={{ gap: 10 }}>
+          <Link to="/">Home</Link>
+          <Link to="/history">History</Link>
+          <Link to="/cart">Cart</Link>
+        </div>
+
+
+        <Routes>
+          <Route path="/" element={<HomePage addToHistory={addToHistory} />} />
+          <Route path="/history" element={<HistoryPage history={history} />} />
+          <Route path="/cart" element={<CartPage />} />
+        </Routes>
+      </div>
+    </Router>
   );
-}
+};
 
 export default App;
